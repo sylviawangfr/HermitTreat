@@ -8,7 +8,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.Iterator;
 
-public class Pattern9 extends BasePattern implements IPattern{
+public class Pattern6K extends BasePattern implements IPattern{
 
     public void generatePattern() {
 //the ninth pattern
@@ -28,9 +28,7 @@ public class Pattern9 extends BasePattern implements IPattern{
                             if (check9.contains("InverseOf")) {
                                 String[] subProps = check9.split("InverseOf");
                                 if (subProps[0].length() < 8) {
-                                    //if list subproperty dimulai dari inverse dulu, maka penanganannya sbb:
                                     String[] temp = subProps[1].split("\\) ");
-                                    //temp[1] adalah nama subproperty yang dicari.
                                     temp[1] = temp[1].substring(1, temp[1].length() - 3);
                                     OWLObjectProperty opry9 = factory.getOWLObjectProperty(IRI.create(temp[1]));
                                     for (OWLSymmetricObjectPropertyAxiom osa9 : ont.getAxioms(AxiomType.SYMMETRIC_OBJECT_PROPERTY)) {
@@ -52,7 +50,7 @@ public class Pattern9 extends BasePattern implements IPattern{
                                         }
                                     }
                                 }
-                            } else {//check9 tidak mengandung inverse of
+                            } else {
                                 String[] subPropx9 = check9.split("Node\\( ");
                                 subPropx9[1] = subPropx9[1].substring(1, subPropx9[1].length() - 3);
                                 //temp[1]=temp[1].substring(1,temp[1].length()-3);

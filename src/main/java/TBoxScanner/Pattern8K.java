@@ -6,12 +6,12 @@ import org.semanticweb.owlapi.model.OWLIrreflexiveObjectPropertyAxiom;
 import java.io.IOException;
 import java.io.PrintWriter;
 
-public class Pattern11 extends BasePattern implements IPattern {
+public class Pattern8K extends BasePattern implements IPattern {
 
     public void generatePattern() {
-//the eleventh pattern
+    // Irreflexive(r)
         try {
-            this.GetPrintWriter("11");
+            this.GetPrintWriter("8");
             for (OWLIrreflexiveObjectPropertyAxiom irl : ont.getAxioms(AxiomType.IRREFLEXIVE_OBJECT_PROPERTY)) {
                 pw.println(irl.getProperty().toString());
             }

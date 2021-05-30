@@ -6,12 +6,12 @@ import org.semanticweb.owlapi.model.OWLAsymmetricObjectPropertyAxiom;
 import java.io.IOException;
 import java.io.PrintWriter;
 
-public class Pattern8 extends BasePattern implements IPattern{
+public class Pattern5_1 extends BasePattern implements IPattern{
 
     public void generatePattern() {
         //the eighth pattern (find all asymmetric properties...)
         try {
-            this.GetPrintWriter("8");
+            this.GetPrintWriter("5");
             for (OWLAsymmetricObjectPropertyAxiom oba8 : ont.getAxioms(AxiomType.ASYMMETRIC_OBJECT_PROPERTY)) {
                 pw.println(oba8.getProperty().toString());
             }

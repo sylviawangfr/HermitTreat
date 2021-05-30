@@ -20,20 +20,20 @@ public class Pattern5 extends BasePattern implements IPattern{
             String relation2 = new String();
             for (OWLObjectPropertyDomainAxiom oda1 : ont.getAxioms(AxiomType.OBJECT_PROPERTY_DOMAIN)) {
                 relation1 = oda1.getProperty().getNamedProperty().toString();
-                prop1 = oda1.getDomain().toString();
+                prop1 = oda1.getDomain().toString(); // D1
                 prop1 = prop1.substring(1, prop1.length() - 1);
                 OWLClass oProp1 = factory.getOWLClass(IRI.create(prop1));
 
                 for (OWLObjectPropertyDomainAxiom oda2 : ont.getAxioms(AxiomType.OBJECT_PROPERTY_DOMAIN)) {
                     relation2 = oda2.getProperty().getNamedProperty().toString();
                     if (!(relation1.equalsIgnoreCase(relation2))) {
-                        prop2 = oda2.getDomain().toString();
+                        prop2 = oda2.getDomain().toString();    // D2
                         prop2 = prop2.substring(1, prop2.length() - 1);
                         OWLClass oProp2 = factory.getOWLClass(IRI.create(prop2));
-                        if (!(oProp2.toString().equals(oProp1.toString()))) {
+                        if (!(oProp2.toString().equals(oProp1.toString()))) {   // D1 != D2
                             OWLAxiom ax = factory.getOWLDisjointClassesAxiom(Arrays.asList(oProp1, oProp2));
                             boolean classesAreDisjoint = reasoner.isEntailed(ax);
-                            if (classesAreDisjoint) {
+                            if (classesAreDisjoint) {   // D1 and D2 disjoint
                                 pw.print(relation1 + "\t");
                                 pw.print(relation2);
                                 pw.println();

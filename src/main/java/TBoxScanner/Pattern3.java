@@ -13,26 +13,26 @@ public class Pattern3 extends BasePattern implements IPattern{
     public void generatePattern() {
         try {
             pw = this.GetPrintWriter("3");
-            for (OWLObjectProperty prop : ont.getObjectPropertiesInSignature()) {
+            for (OWLObjectProperty prop : ont.getObjectPropertiesInSignature()) {   //R2
                 NodeSet<OWLObjectPropertyExpression> properties = reasoner.getSubObjectProperties(prop, false);
                 //if the size == 1, it means the property does not have any subobject property.
-                if (properties.getNodes().size() > 1) {
+                if (properties.getNodes().size() > 1) { //R2 has subobjects
                     String domaSup = new String();
                     String relations = new String();
-                    for (OWLObjectPropertyDomainAxiom op : ont.getAxioms(AxiomType.OBJECT_PROPERTY_DOMAIN)) {
+                    for (OWLObjectPropertyDomainAxiom op : ont.getAxioms(AxiomType.OBJECT_PROPERTY_DOMAIN)) { // all domains
                         if (op.getProperty().equals(prop.getNamedProperty())) {
                             //System.out.print(op.getProperty().toString()+"\t");
                             //System.out.println(op.getDomain().toString());
-                            relations = op.getProperty().toString();
-                            domaSup = op.getDomain().toString();
+                            relations = op.getProperty().toString();    //R2
+                            domaSup = op.getDomain().toString(); //D(R2)
                             domaSup = domaSup.substring(1, domaSup.length() - 1);
                         }
                     }
                     String check = new String();
-                    java.util.Iterator<Node<OWLObjectPropertyExpression>> itr = properties.getNodes().iterator();
+                    java.util.Iterator<Node<OWLObjectPropertyExpression>> itr = properties.getNodes().iterator(); //R1
                     while (itr.hasNext()) {
-                        //SubProps[0] berisikan subProperty dari Property prop
-                        //akses elemen pertama dari subproperty
+                        //SubProps[0] contain subProperty from Property prop
+                        //visit first element of subproperty
                         //String[] subProps = properties.getNodes().iterator().next().toString().split("InverseOf");
                         //before splitting based on InverseOf, check whether itr contains only Node( owl:bottomObjectProperty )]
                         check = itr.next().toString();
@@ -41,7 +41,6 @@ public class Pattern3 extends BasePattern implements IPattern{
                             String domaSub1 = new String();
                             if (check.contains("InverseOf")) {
                                 String[] subProps = check.split("InverseOf");
-
                                 if (subProps[0].length() < 8) {
                                     //if list subproperty dimulai dari inverse dulu, maka penanganannya sbb:
                                     String[] temp = subProps[1].split("\\) ");

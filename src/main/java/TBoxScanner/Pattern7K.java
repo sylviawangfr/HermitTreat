@@ -8,15 +8,15 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.Iterator;
 
-public class Pattern10 extends BasePattern implements IPattern {
+public class Pattern7K extends BasePattern implements IPattern {
 
     public void generatePattern() {
-//the tenth pattern (need to remove the duplicate
+        //the tenth pattern (need to remove the duplicate
         //r2 symmetric, r3 asymmetric
         //r1 subclassof r2, r1 subclassof r3,
         //o{utputkan r1
         try {
-            this.GetPrintWriter("10");
+            this.GetPrintWriter("7");
             String subProprel = new String();
             for (OWLSubObjectPropertyOfAxiom osa10 : ont.getAxioms(AxiomType.SUB_OBJECT_PROPERTY)) {
                 subProprel = osa10.getSubProperty().toString();
@@ -24,7 +24,6 @@ public class Pattern10 extends BasePattern implements IPattern {
                 NodeSet<OWLObjectPropertyExpression> nopr10 = reasoner.getSuperObjectProperties(opr10);
 
                 if (nopr10.getNodes().size() > 1) {
-                    //cek untuk setiap entri di nopr10
                     String check10 = new String();
                     Iterator<Node<OWLObjectPropertyExpression>> itr10 = nopr10.getNodes().iterator();
                     //iterate over the list of SuperProperties
@@ -36,15 +35,12 @@ public class Pattern10 extends BasePattern implements IPattern {
                             if (check10.contains("InverseOf")) {
                                 String[] superProps = check10.split("InverseOf");
                                 if (superProps[0].length() < 8) {
-                                    //if list super property dimulai dari inverse dulu, maka penanganannya sbb:
                                     String[] temp = superProps[1].split("\\) ");
-                                    //temp[1] adalah SUPER PROPERTY yang dicari.
                                     if (temp[1].contains("http")) {
                                         temp[1] = temp[1].substring(1, temp[1].length() - 3);
                                         OWLObjectProperty opry10 = factory.getOWLObjectProperty(IRI.create(temp[1]));
                                         for (OWLAsymmetricObjectPropertyAxiom asy : ont.getAxioms(AxiomType.ASYMMETRIC_OBJECT_PROPERTY)) {
                                             if (asy.getProperty().equals(opry10)) {
-                                                //check apakah ada super object property dari subProprel yang symmetric
                                                 markAsym++;
                                                 break;
                                             }

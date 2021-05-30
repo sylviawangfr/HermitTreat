@@ -23,7 +23,6 @@ import java.util.function.Supplier;
       */
 public class TBoxPatternGenerator {
     String ontology_file;
-    OWLOntology ont;
     String out_dir;
 
     public TBoxPatternGenerator(String ontoloty_file, String output_dir) {
@@ -31,22 +30,30 @@ public class TBoxPatternGenerator {
         this.out_dir = output_dir;
     }
 
-    public void getAllClasses() throws IOException {
-        File all_classes = new File(out_dir + "/AllClasses.txt");
-        FileWriter FW_classes = new FileWriter(all_classes);
-        PrintWriter all_classes_w = new PrintWriter(FW_classes);
-        ont.classesInSignature().forEach(element -> {
-            all_classes_w.print(element.getIRI().getShortForm() + '\n');
-        });
-        all_classes_w.close();
+    public void getAllClasses() {
+        try {
+            OWLOntologyManager man = OWLManager.createOWLOntologyManager();
+            InputStream is = this.readFileAsStream(ontology_file);
+            OWLOntology ont = man.loadOntologyFromOntologyDocument(is);
+            System.out.println(out_dir);
+            File all_classes = new File(out_dir + "/AllClasses.txt");
+            FileWriter FW_classes = new FileWriter(all_classes);
+            PrintWriter all_classes_w = new PrintWriter(FW_classes);
+            ont.classesInSignature().forEach(element -> {
+                all_classes_w.print(element.getIRI().getShortForm() + '\n');
+            });
+            all_classes_w.close();
+        } catch (IOException | OWLOntologyCreationException | IllegalArgumentException e) {
+            e.printStackTrace();
+        }
     }
 
     public void GeneratePatterns() {
         try {
-            long startTime = System.nanoTime();
+//            long startTime = System.nanoTime();
             OWLOntologyManager man = OWLManager.createOWLOntologyManager();
             InputStream is = this.readFileAsStream(ontology_file);
-            ont = man.loadOntologyFromOntologyDocument(is);
+            OWLOntology ont = man.loadOntologyFromOntologyDocument(is);
             OWLReasonerFactory rf = new JFactFactory();
             OWLReasoner reasoner = rf.createReasoner(ont);
             OWLDataFactory factory = man.getOWLDataFactory();
@@ -56,23 +63,19 @@ public class TBoxPatternGenerator {
             }
         } catch (OWLOntologyCreationException | IllegalArgumentException | FileNotFoundException e) {
             e.printStackTrace();
-            return;
         }
     }
 
     private ArrayList<Supplier<BasePattern>> RegesterPatterns() {
         ArrayList<Supplier<BasePattern>> patternConsumers = new ArrayList<>();
-        patternConsumers.add(() -> new Pattern1());
-        patternConsumers.add(() -> new Pattern2());
-        patternConsumers.add(() -> new Pattern3());
-        patternConsumers.add(() -> new Pattern4());
-        patternConsumers.add(() -> new Pattern5());
-        patternConsumers.add(() -> new Pattern6());
-        patternConsumers.add(() -> new Pattern7());
-        patternConsumers.add(() -> new Pattern8());
-        patternConsumers.add(() -> new Pattern9());
-        patternConsumers.add(() -> new Pattern10());
-        patternConsumers.add(() -> new Pattern11());
+        patternConsumers.add(Pattern1::new);
+        patternConsumers.add(Pattern2::new);
+        patternConsumers.add(Pattern3_1::new);
+        patternConsumers.add(Pattern4_1::new);
+        patternConsumers.add(Pattern5_1::new);
+        patternConsumers.add(Pattern6_1::new);
+        patternConsumers.add(Pattern7_1::new);
+        patternConsumers.add(Pattern8K::new);
         return patternConsumers;
     }
 
